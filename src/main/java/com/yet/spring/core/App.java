@@ -1,17 +1,29 @@
 package com.yet.spring.core;
 
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.AbstractApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
+
 public class App {
 
 	private Client client;
-	private ConsoleEventLogger eventLogger;
+	private EventLogger eventLogger;
+
+	public App(Client client, EventLogger eventLogger) {
+		super();
+		this.client = client;
+		this.eventLogger = eventLogger;
+	}
 
 	public static void main(String[] args) {
-		App app = new App();
+		ApplicationContext ctx = new ClassPathXmlApplicationContext("spring.xml");
 
-		app.client = new Client("1", "John Smith");
-		app.eventLogger = new ConsoleEventLogger();
+		App app = (App) ctx.getBean("app");
 
+		((ClassPathXmlApplicationContext)ctx).close();
+		
 		app.logEvent("Some event for user 1");
+		app.logEvent("Some event for user 2");
 	}
 
 	private void logEvent(String msg) {
@@ -27,11 +39,11 @@ public class App {
 		this.client = client;
 	}
 
-	public ConsoleEventLogger getEventLogger() {
+	public EventLogger getEventLogger() {
 		return eventLogger;
 	}
 
-	public void setEventLogger(ConsoleEventLogger eventLogger) {
+	public void setEventLogger(EventLogger eventLogger) {
 		this.eventLogger = eventLogger;
 	}
 
