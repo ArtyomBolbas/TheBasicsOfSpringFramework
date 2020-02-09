@@ -3,6 +3,10 @@ package com.yet.spring.core;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
+import com.yet.spring.core.model.Client;
+import com.yet.spring.core.model.Event;
+import com.yet.spring.core.service.logging.EventLogger;
+
 public class App {
 
 	private Client client;
@@ -17,23 +21,31 @@ public class App {
 	public static void main(String[] args) {
 		ApplicationContext ctx = new ClassPathXmlApplicationContext("spring.xml");
 
-		App app = (App) ctx.getBean("app");
-		Event event1 = (Event)ctx.getBean("event");
-		//The example shows a different time between events  
-		for(long i = 0; i < 100000000;i++) {
-			for(long y = 0; y < 10; y++) {
-			}
-		}
-		Event event2 = (Event)ctx.getBean("event");
+		App app = ctx.getBean("app", App.class);
 		
-		((ClassPathXmlApplicationContext)ctx).close();
+		Event event1 = ctx.getBean("event", Event.class);
+		app.pause(2000);
+		Event event2 = ctx.getBean("event", Event.class);
+		app.pause(2000);
+		Event event3 = ctx.getBean("event", Event.class);
 		
 		app.logEvent(event1);
 		app.logEvent(event2);
+		app.logEvent(event3);
+		
+		((ClassPathXmlApplicationContext)ctx).close();
 	}
 
 	private void logEvent(Event event) {
 		eventLogger.logEvent(event);
+	}
+	
+	private void pause(long millis) {
+		try {
+			Thread.sleep(millis);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
 	}
 
 	public Client getClient() {

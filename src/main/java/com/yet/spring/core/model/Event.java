@@ -1,4 +1,4 @@
-package com.yet.spring.core;
+package com.yet.spring.core.model;
 
 import java.text.DateFormat;
 import java.util.Date;
@@ -42,7 +42,7 @@ public class Event {
 
 	@Override
 	public String toString() {
-		return "id=" + id + ", message=" + message + ", date=" + df.format(date);
+		return "id=" + id + ", message=" + message + ", date=" + df.format(date) + System.lineSeparator();
 	}
 
 }
