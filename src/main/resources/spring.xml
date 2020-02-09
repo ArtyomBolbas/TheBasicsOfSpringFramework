@@ -2,7 +2,7 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
-                        http://www.springframework.org/schema/beans/spring-beans-3.2.xsd">
+                        http://www.springframework.org/schema/beans/spring-beans-4.1.xsd">
 
 	<bean id="app" class="com.yet.spring.core.App">
 		<constructor-arg ref="client" />
@@ -25,16 +25,5 @@
 		</constructor-arg>
 	</bean>
 	
-	<bean id="cacheEventLoggerFile" class="com.yet.spring.core.service.logging.CacheFileEventLogger"
-		init-method="init" destroy-method="destroy">
-		<constructor-arg value="target/events_log.txt"/>
-		<constructor-arg value="2"/>
-	</bean>
-
-	<bean id="eventLoggerFile"
-		class="com.yet.spring.core.service.logging.FileEventLogger"
-			init-method="init">
-		<constructor-arg value="target/events_log.txt"/>
-	</bean>
-
+	<import resource="loggers.xml"/>
 </beans>
