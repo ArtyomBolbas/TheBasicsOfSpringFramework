@@ -6,15 +6,23 @@
                         
 	<bean id="eventLoggerConsole" class="com.yet.spring.core.service.logging.ConsoleEventLogger"/>                        
                         
-	<bean id="cacheEventLoggerFile"
-		class="com.yet.spring.core.service.logging.CacheFileEventLogger"
-		destroy-method="destroy" parent="eventLoggerFile">
+	<bean id="cacheEventLoggerFile" class="com.yet.spring.core.service.logging.CacheFileEventLogger"
+		parent="eventLoggerFile"
+		destroy-method="destroy">
 		<constructor-arg value="2" />
 	</bean>
 
-	<bean id="eventLoggerFile"
-		class="com.yet.spring.core.service.logging.FileEventLogger"
-		init-method="init" abstract="true">
+	<bean id="eventLoggerFile" class="com.yet.spring.core.service.logging.FileEventLogger"
+		init-method="init">
 		<constructor-arg value="target/events_log.txt" />
+	</bean>
+	
+	<bean id="combinedEventLogger" class="com.yet.spring.core.service.logging.CombinedEventLogger">
+		<constructor-arg>
+			<list>
+				<ref bean="eventLoggerConsole"/>
+				<ref bean="eventLoggerFile"/>
+			</list>
+		</constructor-arg>
 	</bean>
 </beans>

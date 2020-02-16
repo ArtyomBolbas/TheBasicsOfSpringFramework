@@ -6,12 +6,19 @@
 
 	<bean id="app" class="com.yet.spring.core.App">
 		<constructor-arg ref="client" />
-		<constructor-arg ref="cacheEventLoggerFile" />
+		<constructor-arg ref="eventLoggerConsole"/>
+		<constructor-arg>
+			<map>
+				<entry key="INFO" value-ref="eventLoggerConsole"/>
+				<entry key="ERROR" value-ref="combinedEventLogger"/>
+			</map>
+		</constructor-arg>
 	</bean>
 
 	<bean id="client" class="com.yet.spring.core.model.Client">
 		<constructor-arg index="0" value="1" />
-		<constructor-arg index="1" value="John Smith" />
+		<constructor-arg index="1" value="John Smith"/>
+		<property name="greeting" value="Hello there"/>
 	</bean>
 
 	<bean id="event" class="com.yet.spring.core.model.Event"
